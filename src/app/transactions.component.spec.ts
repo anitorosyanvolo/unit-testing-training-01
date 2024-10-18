@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import TransactionsComponent from './transactions.component';
+import { By } from '@angular/platform-browser';
 
 describe('TransactionsComponent', () => {
     let fixture: ComponentFixture<TransactionsComponent>;
@@ -16,8 +17,13 @@ describe('TransactionsComponent', () => {
     expect(component.addTransactionDialogOpen()).toBe(true);
   });
   it('should delete transaction', () => {
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('table')))
+    const children = fixture.debugElement.query(By.css('table')).queryAll(By.css('tr'));
     const length = component.transactions().length;
     component.deleteTransaction(1);
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('table')).queryAll(By.css('tr')).length).toBe(children.length - 1);
     expect(component.transactions().length).toBe(length-1);
   });
   it('should check currentBalance', () => {
